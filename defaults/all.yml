@@ -1,0 +1,8 @@
+---
+  pve_api: 'proxmox-api-go'
+  
+  ssh:
+    user: root
+    identity_file: '~/ssh/id_rsa'
+    proxy_jump: proxyhost
+    include_config: '~/.ssh/config'

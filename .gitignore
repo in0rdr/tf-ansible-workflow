@@ -1,0 +1,8 @@
+**/*_override.tf
+.env
+.terraform
+terraform.tfstate*
+inventory
+id_rsa
+ssh_config
+qemu-config.yml
