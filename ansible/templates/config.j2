@@ -1,0 +1,17 @@
+{% if ssh_include_config | default(false, true) %}
+Include {{ ssh_include_config }}
+{% endif %}
+
+{% for host in qemu_config %}
+Host {{ host.fqdn }}
+    HostName {{ host.ip4 }}
+{% if ssh_proxy_jump | default(false, true) %}
+    ProxyJump {{ ssh_proxy_jump }}
+{% endif %}
+{% if ssh_identity_file | default(false, true) %}
+    IdentityFile {{ ssh_identity_file }}
+{% endif %}
+{% if ssh_user | default(false, true) %}
+    User {{ ssh_user }}
+{% endif %}
+{% endfor %}

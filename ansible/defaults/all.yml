@@ -1,0 +1,26 @@
+---
+
+# path to proxmox api binary
+# this default is used if not otherwise specified
+pve_api: 'proxmox-api-go'
+  
+# ssh configuraiton to reach the VMs
+# this is only an example, each line
+# needs to enabled explicitly in group_vars
+ssh_user: root
+ssh_identity_file: '../ssh/id_rsa'
+ssh_proxy_jump: proxyhost
+ssh_include_config: '~/.ssh/config'
+
+# example of adding additional users
+# additional_users:
+#   - name: user1
+#     # comma seperated list of additional groups
+#     additional_groups: 'wheel'
+#     # mutually exclusive with reuse_ssh_key below
+#     generate_ssh_key: yes
+#     # mutually exclusive with generate_ssh_key above
+#     # lets you reuse an existing ssh key
+#     #ssh_key: '../ssh/id_rsa'
+#     # adds this key as authorized key
+#     sauthorized_key: '~/.ssh/id_rsa.pub'

@@ -1,8 +1,0 @@
----
-  pve_api: '/home/andi/gocode/src/github.com/Telmate/proxmox-api-go/proxmox-api-go'
-  
-  ssh:
-    user: root
-    identity_file: './id_rsa'
-    proxy_jump: proxmox
-    include_config: '~/.ssh/config'
