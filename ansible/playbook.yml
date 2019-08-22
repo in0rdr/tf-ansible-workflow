@@ -1,12 +1,11 @@
 ---
 
-# local task that generates an ssh onfig to connect to VMs
+# local tasks to generate ssh config
 #   - input/requires: './qemu-config.yml' 
 - hosts: local
   vars:
     qemu_config: "{{ lookup('file', 'qemu-config.yml') | from_yaml }}"
   tasks:
-
     - name: get ips for invenotry hostnames
       include_tasks: 'get-ips.yml'
       loop_control:
@@ -23,24 +22,37 @@
         src: 'templates/config.j2'
         dest: '../ssh/config'
 
+# remote tasks to set hostname, add users and keys
 - hosts: qemu
   tasks:
+    - name: include os specific vars
+      include_vars: '{{ item }}'
+      with_first_found:
+        - '{{ ansible_distribution }}_{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_os_family }}.yml'
+
+    - name: remote user information message
+      debug:
+        msg: 'Running tasks on remote host as user "{{ ansible_user }}"'
+
     - name: set hostname
       command: 'hostnamectl set-hostname {{ inventory_hostname }}'
       register: hostname_update
+      become: yes
 
     - name: restart network to register hostname with dns server
       service:
         name: network
         state: restarted
       when: hostname_update.changed
+      become: yes
 
     - name: set ssh private key
       copy:
         src: '{{ ssh_identity_file }}'
         dest: '{{ ansible_env.HOME }}/.ssh/id_rsa'
-        owner: '{{ ssh_user }}'
-        group: '{{ ssh_user }}'
+        owner: '{{ ansible_user }}'
+        group: '{{ ansible_user }}'
         mode: '0600'
 
     - name: add additional users
@@ -50,6 +62,7 @@
         groups: '{{ item.additional_groups }}'
         append: yes
       loop: '{{ additional_users }}'
+      become: yes
 
     - name: generate additional users ssh keys
       user:
@@ -57,6 +70,7 @@
         generate_ssh_key: '{{ item.generate_ssh_key }}'
       loop: '{{ additional_users }}'
       when: item.generate_ssh_key | default(false, true) and not item.ssh_key | default(false, true)
+      become: yes
 
     - name: ensure ssh directory for additional users exists
       file:
@@ -64,16 +78,18 @@
         state: directory
         mode: '0700'
       loop: '{{ additional_users }}'
+      become: yes
 
     - name: set additional users ssh keys from existing key
       copy:
-        src: '{{ ssh_identity_file }}'
+        src: '{{ item.ssh_key }}'
         dest: '/home/{{ item.name }}/.ssh/id_rsa'
         owner: '{{ item.name }}'
         group: '{{ item.name }}'
         mode: '0600'
       loop: '{{ additional_users }}'
       when: item.ssh_key | default(false, true) and not item.generate_ssh_key | default(false, true)
+      become: yes
 
     - name: set authorized key for user
       authorized_key:
@@ -82,6 +98,7 @@
         key: '{{ lookup("file", item.authorized_key) }}'
       loop: '{{ additional_users }}'
       when: item.authorized_key | default(false, true)
+      become: yes
 
     - name: set passwordless login
       lineinfile:

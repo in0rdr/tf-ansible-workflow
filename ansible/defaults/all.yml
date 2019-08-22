@@ -24,6 +24,6 @@ ssh_passwordless_login: no
 #     generate_ssh_key: yes
 #     # mutually exclusive with generate_ssh_key above
 #     # lets you reuse an existing ssh key
-#     #ssh_key: '../ssh/id_rsa'
+#     #ssh_key: '{{ ssh_identity_file }}'
 #     # adds this key as authorized key
 #     sauthorized_key: '~/.ssh/id_rsa.pub'
