@@ -49,7 +49,7 @@ terraform output inventory > ../ansible/inventory
 terraform output qemu_config > ../ansible/qemu-config.yml
 
 # inspect the name of the key file, see instructions below
-terraform output ssh_keyfile
+terraform output ssh_private_keyfile
 ```
 
 ## 4 Ansible
@@ -60,7 +60,7 @@ Ansible depends on the following files written by Terraform, see section "2 Run 
 2. `./ansible/qemu-config.yml`: The mapping of Qemu VM ids to hostnames
 
 Adjust variables in `./ansible/group_vars/all.yml`:
-* `ssh_identity_file`: Relative path name to the SSH privat key (output of `terraform output ssh_keyfile`)
+* `ssh_identity_file`: Relative path name to the SSH privat key (output of `terraform output ssh_private_keyfile`)
 * Set `ssh_proxy_jump` and `ssh_user` if necessary
 * Ensure `pve_api` points to your compiled PVE API binary
 * Define `additional_users` as needed
@@ -98,7 +98,7 @@ terraform refresh
 ### 5.3 Retrive private key without running Terraform
 If needed, retrieve the SSH key (again) without re-applying changes:
 ```
-terraform output ssh_key > ../ssh/id_rsa
+terraform output ssh_private_key > ../ssh/id_rsa
 ```
 
 Terraform takes care of writing this private key file the first time you run `terraform apply`, however, you might want to retrieve the key again without re-running Terraform.
@@ -107,3 +107,4 @@ Terraform takes care of writing this private key file the first time you run `te
 ## Dependencies
 * PVE API: https://github.com/Telmate/proxmox-api-go
 * Terraform provider for Proxmox: https://github.com/Telmate/terraform-provider-proxmox
+
