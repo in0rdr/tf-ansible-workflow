@@ -61,7 +61,7 @@ Ansible depends on the following files written by Terraform, see section "2 Run 
 
 Adjust variables in `./ansible/group_vars/all.yml`:
 * `ssh_identity_file`: Relative path name to the SSH privat key (output of `terraform output ssh_private_keyfile`)
-* Set `ssh_proxy_jump` and `ssh_user` if necessary
+* Set `ssh_proxy_jump` and `ansible_user` if necessary
 * Ensure `pve_api` points to your compiled PVE API binary
 * Define `additional_users` as needed
 

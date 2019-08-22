@@ -7,7 +7,7 @@ pve_api: 'proxmox-api-go'
 # ssh configuraiton to reach the VMs
 # this is only an example, each line
 # needs to enabled explicitly in group_vars
-ssh_user: root
+ansible_user: root
 ssh_identity_file: '../ssh/id_rsa'
 ssh_proxy_jump: proxyhost
 ssh_include_config: '~/.ssh/config'
