@@ -77,7 +77,10 @@ It is necessary to run ansible, because the IP address of the hosts cannot be re
 
 Run the playbook:
 ```
-ansible-playbook playbook.yml -i inventory
+# build ssh config from qemu-config.yml
+ansible-playbook playbook.yml -i inventory -l local
+# set hostname, restart networking, modify users and keys
+ansible-playbook playbook.yml -i inventory -l qemu
 ```
 
 ## 5 Troubleshooting, Tips & Tricks

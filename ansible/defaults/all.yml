@@ -12,6 +12,9 @@ ssh_identity_file: '../ssh/id_rsa'
 ssh_proxy_jump: proxyhost
 ssh_include_config: '~/.ssh/config'
 
+# allow sudo/wheel users to execute any command without password
+ssh_passwordless_login: no
+
 # example of adding additional users
 # additional_users:
 #   - name: user1

@@ -1,0 +1,4 @@
+---
+
+# group of sudo users
+sudo_group: wheel

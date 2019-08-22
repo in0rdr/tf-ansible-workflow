@@ -82,3 +82,13 @@
         key: '{{ lookup("file", item.authorized_key) }}'
       loop: '{{ additional_users }}'
       when: item.authorized_key | default(false, true)
+
+    - name: set passwordless login
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%{{ sudo_group }}'
+        line: '%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+      when: ssh_passwordless_login
+      become: yes
