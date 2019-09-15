@@ -83,6 +83,13 @@ ansible-playbook playbook.yml -i inventory -l local
 ansible-playbook playbook.yml -i inventory -l qemu
 ```
 
+If you choose an unprivileged `ansible_user` to reach the VMs, you may need to specfiy a privileged user to run some of the tasks. Specifically, restarting the network and modifying users requires more privileges. Further, you might not want to touch all hosts and limit the execution to a specific host:
+```
+# set hostname, restart networking, modify users and keys as privileged user on "myhost"
+ansible-playbook playbook.yml -i inventory -l myhost -e ansible_user=root
+```
+
+
 ## 5 Troubleshooting, Tips & Tricks
 
 ### 5.1 Recreate
