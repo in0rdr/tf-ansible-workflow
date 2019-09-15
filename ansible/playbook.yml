@@ -109,3 +109,19 @@
         validate: 'visudo -cf %s'
       when: ssh_passwordless_login
       become: yes
+
+    - block:
+      - name: disable ipv4 localhost resolver
+        replace:
+          path: '{{ item.file }}'
+          regexp: '^127\.0\.0\.1 {{ item.fqdn }}(.*)$'
+          replace: '#127.0.0.1 {{ item.fqdn }}\1'
+        loop: '{{ host_files }}'
+
+      - name: disable ipv6 localhost resolver
+        replace:
+          path: '{{ item.file }}'
+          regexp: '^::1 {{ item.fqdn }}(.*)$'
+          replace: '#::1 {{ item.fqdn }}\1'
+        loop: '{{ host_files }}'
+      when: cloud_init_disable_localhost_resolver
