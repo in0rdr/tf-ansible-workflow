@@ -1,4 +1,4 @@
-# Proxmox VE (PVE) Terraform and Ansible Workflow
+# Terraform/Ansible Workflow on Proxmox VE (PVE)
 
 This repository describes a workflow which helps me to (re)create multiple similar VMs for testing purposes.
 
