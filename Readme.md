@@ -16,6 +16,7 @@ export PM_API_URL="https://cloud.proxmox.org/api2/json"
 Generate a unicast MAC foreach VM. For instance, use a bash script to do so:
 ```
 #!/bin/sh
+# source: https://serverfault.com/a/299563
 function macaddr() {
  echo $RANDOM | md5sum | sed 's/^\(..\)\(..\)\(..\)\(..\)\(..\).*$/02:\1:\2:\3:\4:\5/'
 }
