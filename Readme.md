@@ -74,7 +74,7 @@ The Ansible playbook runst the following tasks:
 3. Build the `./ssh/ssh_config` based on the information in the previous step
 4. Add additional users `additional_users`
 
-It is necessary to run ansible, because the IP address of the hosts cannot be retrieved by Terraform (the PVE provider is not mature enough yet). Therefore, we need to retrieve the IP addresses of the hosts via the Qemu guest agents running in the VMs. This process is automated and it will amend the IPs to the file `./ansible/qemu-config.yml`. Furthermore, the playbook will set the hostname and restart networking inside the VMs, such that then hostnames is published to the DNS server and the hosts are known/addressable by name.
+It is necessary to run ansible, because the IP address of the hosts cannot be retrieved by Terraform (the PVE provider is not mature enough yet). Therefore, we need to retrieve the IP addresses of the hosts via the Qemu guest agents running in the VMs. This process is automated and it will amend the IPs to the file `./ansible/qemu-config.yml`. Furthermore, the playbook will set the hostname and restart networking inside the VMs, such that the hostnames are published to the DNS server and all hosts are known/addressable by name.
 
 Run the playbook:
 ```
