@@ -8,7 +8,7 @@ Define authentication variables for the [PVE API](https://github.com/Telmate/pro
 ```
 export PM_USER=test@pve
 export PM_PASS="secret"
-export PM_API_URL="https://cloud.proxmox.org/api2/json"
+export PM_API_URL="https://pve.cloud.org/api2/json"
 #export TF_LOG=DEBUG
 ```
 
