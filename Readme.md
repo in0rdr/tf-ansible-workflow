@@ -93,20 +93,31 @@ ansible-playbook playbook.yml -i inventory -l myhost -e ansible_user=root
 
 ## 5 Troubleshooting, Tips & Tricks
 
-### 5.1 Recreate
-To recreate some of the infra:
+### 5.1 Delete and Recreate Hosts
+You can either taint the Terraform resources or delete them via PVE API. To taint resources:
 ```
-terraform apply -target="proxmox_vm_qemu.mongodb2" -target="proxmox_vm_qemu.mongodb1"
+terraform taint proxmox_vm_qemu.host[\"mysql0\"]
+Resource instance proxmox_vm_qemu.host["mysql0"] has been marked as tainted.
 ```
 
-### 5.2 Delete
-To delete some of the the infra:
+Afterwards, re-apply to restore the Terraform state:
+```
+terraform apply
+```
+
+To delete some of the the infrastructure directly via API (this might confuse your Terraform state):
 ```
 ~/gocode/src/github.com/Telmate/proxmox-api-go/proxmox-api-go destroy 116
 terraform refresh
 ```
 
-### 5.3 Retrive private key without running Terraform
+To only recreate parts of the infrastructure, choose an appropriate Terraform `target`:
+```
+terraform apply -target="proxmox_vm_qemu.host[\"mysql0\"]" -target="proxmox_vm_qemu.host[\"mysql1\"]"
+```
+
+
+### 5.2 Retrive private key without running Terraform
 If needed, retrieve the SSH key (again) without re-applying changes:
 ```
 terraform output ssh_private_key > ../ssh/id_rsa
