@@ -12,7 +12,7 @@
 - name: extract public interface
   set_fact: network_interfaces_list='{{ network_interfaces.stdout | from_json }}'
 
-- debug: var=network_interfaces_list
+#- debug: var=network_interfaces_list
 
 - name: extract ip4 from public/second interface
   set_fact: ip4_addr='{{ network_interfaces_list[1]["IPAddresses"][0] }}'
