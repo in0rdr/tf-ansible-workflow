@@ -1,0 +1,24 @@
+---
+
+# Local tasks to update known ssh hosts
+#
+# Remove:
+#  for ip in $(cat qemu-config.yml | grep ip4 | awk '{print $2}'); do ssh-keygen -R $ip; done
+#
+# Add:
+#  for host in $(cat qemu-config.yml | grep fqdn | awk '{print $3}'); do ssh -F ../ssh/config $host exit; done
+#
+# Requires './qemu-config.yml' with ipv4 addresses
+- hosts: local
+  vars:
+    qemu_config: "{{ lookup('file', 'qemu-config.yml') | from_yaml }}"
+  tasks:
+    - name: remove the host from local known hosts
+      known_hosts:
+        path: '{{ ansible_env.HOME }}/.ssh/known_hosts'
+        name: '{{ item.ip4 }}'
+        state: absent
+      loop: '{{ qemu_config }}'
+    
+    - name: update known host locally
+      shell: 'for host in $(cat qemu-config.yml | grep fqdn | awk "{print $3}"); do ssh -F ../ssh/config $host exit; done'

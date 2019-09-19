@@ -66,7 +66,7 @@ Adjust variables in `./ansible/group_vars/all.yml`:
 * Ensure `pve_api` points to your compiled PVE API binary
 * Define `additional_users` as needed
 
-### 4.2 Run Ansible
+### 4.2 Run Ansible to Build the SSH Config
 
 The Ansible playbook runst the following tasks:
 1. Retrieve the IP of the VMs via Qemu guest agent
@@ -90,6 +90,24 @@ If you choose an unprivileged `ansible_user` to reach the VMs, you may need to s
 ansible-playbook playbook.yml -i inventory -l myhost -e ansible_user=root
 ```
 
+### 4.3 Update Known Hosts
+
+To prepare the local host for consecutive SSH connections, you might want to update you local `./ssh/known_hosts` file as follows:
+```
+# update known hosts locally and confirm
+ansible-playbook update-known-hosts.yml -i inventory
+```
+
+Alternatively, use the following commands:
+```
+cd ansible
+
+# remove previous hosts from known hosts
+for ip in $(cat qemu-config.yml | grep ip4 | awk '{print $2}'); do ssh-keygen -R $ip; done
+
+# update known hosts and confirm
+for host in $(cat qemu-config.yml | grep fqdn | awk '{print $3}'); do ssh -F ../ssh/config $host exit; done
+```
 
 ## 5 Troubleshooting, Tips & Tricks
 

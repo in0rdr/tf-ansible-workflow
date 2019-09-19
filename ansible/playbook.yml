@@ -1,7 +1,7 @@
 ---
 
-# local tasks to generate ssh config
-#   - input/requires: './qemu-config.yml' 
+# Local tasks to generate ssh config
+# Input/requires: './qemu-config.yml'
 - hosts: local
   vars:
     qemu_config: "{{ lookup('file', 'qemu-config.yml') | from_yaml }}"
