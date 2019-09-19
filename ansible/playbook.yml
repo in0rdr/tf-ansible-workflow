@@ -6,7 +6,7 @@
   vars:
     qemu_config: "{{ lookup('file', 'qemu-config.yml') | from_yaml }}"
   tasks:
-    - name: get ips for invenotry hostnames
+    - name: get ips for inventory hostnames
       include_tasks: 'get-ips.yml'
       loop_control:
         index_var: i
