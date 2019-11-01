@@ -1,0 +1,10 @@
+---
+
+# group of sudo users
+sudo_group: wheel
+
+host_files:
+  - file: '/etc/cloud/templates/hosts.suse.tmpl'
+    fqdn: '\{\{fqdn\}\}'
+  - file: '/etc/hosts'
+    fqdn: '{{ ansible_hostname }}'
