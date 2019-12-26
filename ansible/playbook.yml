@@ -45,6 +45,15 @@
         name: network
         state: restarted
       when: hostname_update.changed
+      ignore_errors: yes
+      become: yes
+
+    - name: restart NetworkManager to register hostname with dns server
+      service:
+        name: NetworkManager
+        state: restarted
+      when: hostname_update.changed
+      ignore_errors: yes
       become: yes
 
     - name: set ssh private key
