@@ -1,10 +1,10 @@
 variable "hosts" {
-    type = "list"
+    type = list
     default = ["node0", "node1"]
 }
 
 variable "macaddr" {
-    type = "map"
+    type = map
     default = {
         node0 = "02:e6:df:96:00:d6"
         node1 = "02:98:f7:29:3a:82"
