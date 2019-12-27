@@ -45,3 +45,13 @@ variable "clone" {
     type = string
     default = "CentOS7-GenericCloud"
 }
+
+variable "serial" {
+    type = bool
+    default = false
+}
+
+variable "vga" {
+    type = string
+    default = "std"
+}

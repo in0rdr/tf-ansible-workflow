@@ -17,6 +17,17 @@ resource "proxmox_vm_qemu" "host" {
         storage = "local-lvm"
         storage_type = "lvm"
     }
+    dynamic "serial" {
+        #for_each = var.serial
+        for_each = var.serial ? [true] : [] 
+        content {
+            id = 0
+            type = "socket"
+        }
+    }
+    vga {
+        type = var.vga
+    }
 
     network {
         id = 0

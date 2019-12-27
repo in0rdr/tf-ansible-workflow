@@ -114,7 +114,7 @@
 
     - name: set passwordless login
       lineinfile:
-        path: /etc/sudoers
+        path: '/etc/sudoers'
         state: present
         regexp: '^%{{ sudo_group }}'
         line: '%{{ sudo_group }} ALL=(ALL) NOPASSWD: ALL'
@@ -137,3 +137,61 @@
           replace: '#::1 {{ item.fqdn }}\1'
         loop: '{{ host_files }}'
       when: cloud_init_disable_localhost_resolver
+
+#    - name: enable serial output
+#      lineinfile:
+#        path: '/etc/default/grub'
+#        state: present
+#        regexp: '^GRUB_TERMINAL_OUTPUT=(.*)$'
+#        line: 'GRUB_TERMINAL_OUTPUT="console serial"'
+#    - name: enable serial input
+#      lineinfile:
+#        path: '/etc/default/grub'
+#        state: present
+#        regexp: '^GRUB_TERMINAL_INPUT=(.*)$'
+#        line: 'GRUB_TERMINAL_INPUT="console serial"'
+#    - name: set grub serial command
+#      lineinfile:
+#        path: '/etc/default/grub'
+#        state: present
+#        regexp: '^GRUB_SERIAL_COMMAND=(.*)$'
+#        line: 'GRUB_SERIAL_COMMAND="serial --unit=0 --speed=115200"'
+
+#- name: "Checking GRUB cmdline"
+#  shell: "grep 'GRUB_CMDLINE_LINUX_DEFAULT=.*splash.*' /etc/default/grub"
+#  register: grub_cfg_grep
+#  changed_when: false
+#  failed_when: false
+#
+#- name: "Configuring GRUB cmdline"
+#  replace:
+#    path: '/etc/default/grub'
+#    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT="((\w.?)*)"$'
+#    replace: 'GRUB_CMDLINE_LINUX_DEFAULT="\1 splash"'
+#  when: '"splash" not in grub_cfg_grep'
+
+    - name: check grub cmdline parameters
+      shell: "grep GRUB_CMDLINE_LINUX /etc/default/grub | awk -F '\"' '{print $2}'"
+      register: grub_cmdline_linux
+
+    - debug: var=grub_cmdline_linux.stdout.split()
+
+    - set_fact:
+        grub_cmdline_linux_replace: '{{ grub_cmdline_linux + [item] }}'
+      loop:
+        - 'console=tty0'
+        - 'console=ttyS0,115200'
+
+    - name: ensure grub kernel console parameter
+      replace:
+        path: '/etc/default/grub'
+        regexp: '^GRUB_CMDLINE_LINUX="(.*)"$'
+        replace: 'GRUB_CMDLINE_LINUX="{{ grub_cmdline_linux_replace | unique | join }}"'
+#    - name: ensure grub kernel serial parameter
+#      replace:
+#        path: '/etc/default/grub'
+#        regexp: '^GRUB_CMDLINE_LINUX="(.*)"$'
+#        replace: 'GRUB_CMDLINE_LINUX="\1 console=ttyS0,115200"'
+
+
+#when: ansible_os_family == "RedHat"

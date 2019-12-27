@@ -9,3 +9,5 @@ memory = 2048
 disk = 30
 target_node = "cloudname"
 clone = "CentOS7-GenericCloud"
+serial = true
+vga = "serial0"
