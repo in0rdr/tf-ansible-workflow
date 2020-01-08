@@ -1,0 +1,5 @@
+# Ansible generated dnsmasq.conf snippet
+{% for host in qemu_config %}
+# pve host {{ host.id }}
+dhcp-host={{ host.macaddr }},{{ host.ip4 }}
+{% endfor %}

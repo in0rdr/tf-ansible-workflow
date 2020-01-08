@@ -1,0 +1,11 @@
+---
+
+# create dnsmasq config for static ip addresses
+- hosts: local
+  vars:
+    qemu_config: "{{ lookup('file', 'qemu-config.yml') | from_yaml }}"
+  tasks:
+    - name: create dnsmasq config snippet with ip mac mapping
+      template:
+        src: 'templates/dnsmasq.j2'
+        dest: './dnsmasq.conf'
