@@ -72,7 +72,8 @@ The Ansible playbook runst the following tasks:
 1. Retrieve the IP of the VMs via Qemu guest agent
 2. Write the IP to the file `./ansible/qemu-config.yml`
 3. Build the `./ssh/ssh_config` based on the information in the previous step
-4. Add additional users `additional_users`
+4. Build an optional `./dnsmasq.conf` to enable static ip in dnsmasqs built-in dhcp subsystem
+5. Add additional users `additional_users`
 
 It is necessary to run ansible, because the IP address of the hosts cannot be retrieved by Terraform (the PVE provider is not mature enough yet). Therefore, we need to retrieve the IP addresses of the hosts via the Qemu guest agents running in the VMs. This process is automated and it will amend the IPs to the file `./ansible/qemu-config.yml`. Furthermore, the playbook will set the hostname and restart networking inside the VMs, such that the hostnames are published to the DNS server and all hosts are known/addressable by name.
 
@@ -80,6 +81,9 @@ Run the playbook:
 ```
 # build ssh config from qemu-config.yml
 ansible-playbook playbook.yml -i inventory -l local
+# if required, build a dnsmasq snippet for static ip allocation (dhcp)
+# the snippet is written to the file './dnsmasq.conf'
+ansible-playbook dhcp-static-hosts.yml -i inventory -l local
 # set hostname, restart networking, modify users and keys
 ansible-playbook playbook.yml -i inventory -l qemu
 ```
