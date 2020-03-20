@@ -25,7 +25,7 @@ ssh_passwordless_login: no
 #     # lets you reuse an existing ssh key
 #     #ssh_key: '{{ ssh_identity_file }}'
 #     # adds this key as authorized key
-#     sauthorized_key: '~/.ssh/id_rsa.pub'
+#     #authorized_key: '~/.ssh/id_rsa.pub'
 
 # The cloud-init config template has manage_etc_hosts enabled by default.
 # This will overwrite the state of /etc/hosts at each reboot. The default
