@@ -52,3 +52,9 @@ variable "baseimage_format" {
     default = "qcow2"
     description = "Format of the baseimage used as backing image for all VMs"
 }
+
+variable "domain" {
+    type = string
+    default = ".libvirt"
+    description = "Domain name for the virtual network"
+}

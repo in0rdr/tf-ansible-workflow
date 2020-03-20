@@ -1,0 +1,4 @@
+      <!-- # Ansible generated libvirt network snippet -->
+{% for host in qemu_config %}
+      <host mac='{{ host.macaddr }}' name='{{ host.fqdn }}' ip='{{ host.ip4 }}'/>
+{% endfor %}

@@ -9,3 +9,7 @@
       template:
         src: 'templates/dnsmasq.j2'
         dest: './dnsmasq.conf'
+    - name: create libvirt network config snippet with ip mac mapping
+      template:
+        src: 'templates/libvirt-network.xml.j2'
+        dest: './libvirt-network.xml'

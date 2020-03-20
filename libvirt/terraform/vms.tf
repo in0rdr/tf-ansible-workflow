@@ -18,7 +18,7 @@ resource "libvirt_pool" "pool" {
 resource "libvirt_volume" "base_volume" {
 # resource "libvirt_volume" "volume" {
     name   = "${var.project}-base"
-    pool   = var.project
+    pool   = libvirt_pool.pool.name
     source = var.baseimage
     format = var.baseimage_format
 
@@ -31,7 +31,7 @@ resource "libvirt_volume" "volume" {
     for_each       = toset(var.hosts)
 
     name           = "${var.project}-cow-${each.value}"
-    pool           = var.project
+    pool           = libvirt_pool.pool.name
     base_volume_id = libvirt_volume.base_volume.id
 }
 
@@ -83,7 +83,8 @@ resource "libvirt_domain" "host" {
     qemu_agent = true
 
     network_interface {
-        network_name = "default"
+        network_name   = libvirt_network.network.name
+        wait_for_lease = true
     }
 
     # IMPORTANT: this is a known bug on cloud images, since they expect a console
@@ -112,6 +113,86 @@ resource "libvirt_domain" "host" {
     }
 }
 
+resource "libvirt_network" "network" {
+    name = var.project
+
+    # mode can be: "nat" (default), "none", "route", "bridge"
+    mode      = "nat"
+    autostart = true
+
+    #  the domain used by the DNS server in this network
+    domain    = var.domain
+
+    #  list of subnets the addresses allowed for domains connected
+    # also derived to define the host addresses
+    # also derived to define the addresses served by the DHCP server
+    addresses = ["10.17.3.0/24"]
+
+    # (optional) the bridge device defines the name of a bridge device
+    # which will be used to construct the virtual network.
+    # (only necessary in "bridge" mode)
+    # bridge = "br7"
+
+    # (optional) the MTU for the network. If not supplied, the underlying device's
+    # default is used (usually 1500)
+    # mtu = 9000
+
+    # (Optional) DNS configuration
+    dns {
+        # (Optional, default false)
+        # Set to true, if no other option is specified and you still want to
+        # enable dns.
+        enabled = true
+        # (Optional, default false)
+        # true: DNS requests under this domain will only be resolved by the
+        # virtual network's own DNS server
+        # false: Unresolved requests will be forwarded to the host's
+        # upstream DNS server if the virtual network's DNS server does not
+        # have an answer.
+        local_only = true
+
+        # (Optional) one or more DNS forwarder entries.  One or both of
+        # "address" and "domain" must be specified.  The format is:
+        # forwarders {
+        #     address = "my address"
+        #     domain = "my domain"
+        #  }
+        #
+
+        # (Optional) one or more DNS host entries.  Both of
+        # "ip" and "hostname" must be specified.  The format is:
+        # hosts  {
+        #     hostname = "my_hostname"
+        #     ip = "my.ip.address.1"
+        #   }
+        # hosts {
+        #     hostname = "my_hostname"
+        #     ip = "my.ip.address.2"
+        #   }
+        #
+
+        # not possible due to cyclic dependency
+        # use Ansible instead and amend manually, see ('../ansible/dhcp-static-hosts.yml')
+        # dynamic "hosts" {
+        #     for_each = var.hosts
+        #     content {
+        #         hostname = hosts.value
+        #         ip = tolist(libvirt_domain.host[hosts.value].network_interface)[0]["addresses"][0]
+        #     }
+        # }
+
+        # (Optional) one or more static routes.
+        # "cidr" and "gateway" must be specified. The format is:
+        # routes {
+        #     cidr = "10.17.0.0/16"
+        #     gateway = "10.18.0.2"
+        #   }
+    }
+
+    dhcp {
+        enabled = true
+    }
+}
 
 resource "null_resource" "update_cloudinit" {
     triggers = {
