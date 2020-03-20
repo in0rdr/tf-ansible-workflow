@@ -1,0 +1,6 @@
+project = "myCluster"
+hosts = ["myCluster01", "myCluster02"]
+# vcpu = 1
+# memory = 1024
+# disk = 13
+# baseimage = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
