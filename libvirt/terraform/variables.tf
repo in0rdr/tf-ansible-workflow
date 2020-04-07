@@ -20,7 +20,8 @@ variable "memory" {
 
 variable "disk" {
     type = number
-    default = 12
+    default = "12000000000"
+    description = "The size of the libvirt volume in bytes (default 12G)"
 }
 
 variable "cloudinit_iso" {

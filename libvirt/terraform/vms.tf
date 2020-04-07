@@ -33,6 +33,7 @@ resource "libvirt_volume" "volume" {
     name           = "${var.project}-cow-${each.value}"
     pool           = libvirt_pool.pool.name
     base_volume_id = libvirt_volume.base_volume.id
+    size           = var.disk
 }
 
 
