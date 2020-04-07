@@ -58,3 +58,9 @@ variable "domain" {
     default = ".libvirt"
     description = "Domain name for the virtual network"
 }
+
+variable "network" {
+    type = string
+    default = "10.66.3.0/24"
+    description = "Subnet of the virtual network"
+}

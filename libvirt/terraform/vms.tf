@@ -126,7 +126,7 @@ resource "libvirt_network" "network" {
     #  list of subnets the addresses allowed for domains connected
     # also derived to define the host addresses
     # also derived to define the addresses served by the DHCP server
-    addresses = ["10.17.3.0/24"]
+    addresses = [var.network]
 
     # (optional) the bridge device defines the name of a bridge device
     # which will be used to construct the virtual network.

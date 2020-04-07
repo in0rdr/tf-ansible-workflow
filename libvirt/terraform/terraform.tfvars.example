@@ -1,5 +1,6 @@
 project = "myCluster"
 hosts = ["myCluster01", "myCluster02"]
+# network = "10.66.3.0/24"
 # vcpu = 1
 # memory = 1024
 # disk = 13
