@@ -25,16 +25,21 @@ todo: `LIBVIRT_DEFAULT_URI` does not work as expected?
 
 ## 2 Run Terraform
 
-Plan:
+Run Terraform in several "stages".
+
+Update the local cloud init config file `./cloud_init.cfg`:
+```bash
+# prepare cloud-init config file with ssh key
+terraform apply -target=null_resource.update_cloudinit -auto-approve
 ```
+
+Have a look at the planned resources:
+```bash
 terraform plan
 ```
 
-Run Terraform in two "stages":
-```
-# prepare cloud-init config file with ssh key
-terraform apply -target=null_resource.update_cloudinit -auto-approve
-
+Create the planned resources:
+```bash
 # create the remaining resources (e.g., the cloud-init image from the config file prepared above)
 terraform apply -auto-approve
 ```
