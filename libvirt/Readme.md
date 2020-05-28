@@ -6,7 +6,7 @@ This repository describes a workflow which helps me to (re)create multiple simil
 
 ### 1.1 Prerequisites
 ```
-systemc start libvirtd
+systemctl start libvirtd
 ```
 
 Install [`cdrkit`](https://en.wikipedia.org/wiki/Cdrkit) for `mkisofs` (`genisoimage`) dependency:
