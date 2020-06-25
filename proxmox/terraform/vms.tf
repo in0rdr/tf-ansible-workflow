@@ -59,9 +59,7 @@ resource "tls_private_key" "id_rsa" {
 resource "local_file" "ssh_private_key" {
     sensitive_content = tls_private_key.id_rsa.private_key_pem
     filename          = "${path.module}/../ssh/id_rsa"
-    provisioner "local-exec" {
-        command = "chmod 600 ${path.module}/../ssh/id_rsa"
-    }
+    file_permission   = "0600"
 }
 resource "local_file" "ssh_public_key" {
     sensitive_content = tls_private_key.id_rsa.public_key_openssh
