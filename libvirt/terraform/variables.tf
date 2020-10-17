@@ -56,7 +56,7 @@ variable "baseimage_format" {
 
 variable "domain" {
     type = string
-    default = ".libvirt"
+    default = "libvirt"
     description = "Domain name for the virtual network"
 }
 
