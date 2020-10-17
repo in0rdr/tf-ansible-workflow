@@ -206,7 +206,7 @@ resource "null_resource" "update_cloudinit" {
 resource "null_resource" "update_inventory" {
     triggers = {
         # when a host id changes
-        host_ids = "${join(" ", values(libvirt_domain.host)[*].id)}"
+        host_ids = join(" ", values(libvirt_domain.host)[*].id)
     }
     provisioner "local-exec" {
         # recreate ansible inventory
