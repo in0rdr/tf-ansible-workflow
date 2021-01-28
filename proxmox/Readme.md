@@ -46,8 +46,8 @@ terraform apply
 
 If the Ansible inventory or the mapping of Qemu VM id to hostname needs to be updated manually, the values can be retrieved from the Terraform output any time:
 ```
-terraform output inventory > ../ansible/inventory
-terraform output qemu_config > ../ansible/qemu-config.yml
+terraform output -raw inventory > ../ansible/inventory
+terraform output -raw qemu_config > ../ansible/qemu-config.yml
 
 # inspect the name of the key file, see instructions below
 terraform output ssh_private_keyfile
@@ -142,7 +142,7 @@ terraform apply -target="proxmox_vm_qemu.host[\"mysql0\"]" -target="proxmox_vm_q
 ### 5.2 Retrive private key without running Terraform
 If needed, retrieve the SSH key (again) without re-applying changes:
 ```
-terraform output ssh_private_key > ../ssh/id_rsa
+terraform output -raw ssh_private_key > ../ssh/id_rsa
 ```
 
 Terraform takes care of writing this private key file the first time you run `terraform apply`, however, you might want to retrieve the key again without re-running Terraform.

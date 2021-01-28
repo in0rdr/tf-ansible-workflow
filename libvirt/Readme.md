@@ -78,8 +78,8 @@ Alternatively, use the [Ansible](#4-ansible) playbook and udpated the [`ssh_key`
 If the Ansible inventory or the mapping of Qemu VM id to hostname needs to be updated manually, the values can be re
 trieved from the Terraform output any time:
 ```
-terraform output inventory > ../ansible/inventory
-terraform output qemu_config > ../ansible/qemu-config.yml
+terraform output -raw inventory > ../ansible/inventory
+terraform output -raw qemu_config > ../ansible/qemu-config.yml
 ```
 
 Inspect the name of the ssh key file:
@@ -173,7 +173,7 @@ terraform apply -target="libvirt_domain.host[\"cka01\"]" -target="libvirt_domain
 ### 5.2 Retrive private key without running Terraform
 If needed, retrieve the SSH key (again) without re-applying changes:
 ```
-terraform output ssh_private_key > ../ssh/id_rsa
+terraform output -raw ssh_private_key > ../ssh/id_rsa
 ```
 
 Terraform takes care of writing this private key file the first time you run `terraform apply`, however, you might want to retrieve the key again without re-running Terraform.
