@@ -1,6 +1,7 @@
 **/*_override.tf
 .env
 .terraform
+.terraform.*
 terraform.tfstate*
 inventory
 id_rsa
