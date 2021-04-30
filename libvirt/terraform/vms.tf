@@ -19,7 +19,7 @@ resource "libvirt_volume" "base_volume" {
 # resource "libvirt_volume" "volume" {
     name   = "${var.project}-base"
     pool   = libvirt_pool.pool.name
-    source = var.baseimage
+    source = "coreos.${var.baseimage_format}"
     format = var.baseimage_format
 
     # todo: required for "terraform destroy"
@@ -79,7 +79,11 @@ resource "libvirt_domain" "host" {
     vcpu   = var.vcpu
 
     cloudinit = libvirt_cloudinit_disk.commoninit.id
-    qemu_agent = true
+    # Default to false, since FCOS and similar images do not ship the agent
+    # https://github.com/dmacvicar/terraform-provider-libvirt/tree/master/examples/v0.13/coreos
+    #
+    # Should only be needed for bridged network configurations. We use 'nat', see libvirt_network
+    #qemu_agent = true
 
     network_interface {
         network_name   = libvirt_network.network.name
@@ -110,6 +114,8 @@ resource "libvirt_domain" "host" {
         listen_type = "address"
         autoport    = true
     }
+
+    coreos_ignition = libvirt_ignition.ignition.id
 }
 
 resource "libvirt_network" "network" {
@@ -190,6 +196,20 @@ resource "libvirt_network" "network" {
 
     dhcp {
         enabled = true
+    }
+}
+
+resource "null_resource" "download_fcos" {
+    provisioner "local-exec" {
+        # download FCOS iso and extract to local path
+        command = "if [[ ! -f coreos.${var.baseimage_format} ]]; then curl ${var.baseimage} -o coreos.${var.baseimage_format}.xz && xzdec coreos.${var.baseimage_format}.xz > coreos.${var.baseimage_format}; fi"
+    }
+}
+
+resource "null_resource" "update_user_ignition" {
+    provisioner "local-exec" {
+        # recreate user ignition file
+        command = "echo '${templatefile("${path.module}/templates/user.ign.tpl", { public_key = chomp(tls_private_key.id_rsa.public_key_openssh) })}' > ./user.ign"
     }
 }
 

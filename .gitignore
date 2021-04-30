@@ -8,3 +8,5 @@ id_rsa
 ssh_config
 qemu-config.yml
 cloud_init.cfg
+*.ign
+*.qcow2

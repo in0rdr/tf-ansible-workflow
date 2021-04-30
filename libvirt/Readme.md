@@ -31,6 +31,7 @@ Update the local cloud init config file `./cloud_init.cfg`:
 ```bash
 # prepare cloud-init config file with ssh key
 terraform apply -target=null_resource.update_cloudinit -auto-approve
+terraform apply -target=null_resource.update_user_ignition -auto-approve
 ```
 
 Have a look at the planned resources:
