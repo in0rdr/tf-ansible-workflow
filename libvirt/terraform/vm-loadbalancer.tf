@@ -1,0 +1,45 @@
+resource "libvirt_volume" "volume_loadbalancer" {
+  name   = "${var.project}-cow-${var.openshift_loadbalancer_node}"
+  pool   = libvirt_pool.pool.name
+  source = var.openshift_loadbalancer_baseimage
+  format = var.baseimage_format
+
+  depends_on = [libvirt_pool.pool]
+}
+
+resource "libvirt_domain" "host_loadbalancer" {
+  # create loadbalancer node
+  name   = var.openshift_loadbalancer_node
+  memory = var.memory
+  vcpu   = var.vcpu
+
+  network_interface {
+    network_name   = libvirt_network.network.name
+    wait_for_lease = true
+  }
+
+  # IMPORTANT: this is a known bug on cloud images, since they expect a console
+  # we need to pass it
+  # https://bugs.launchpad.net/cloud-images/+bug/1573095
+  console {
+    type        = "pty"
+    target_port = "0"
+    target_type = "serial"
+  }
+
+  console {
+    type        = "pty"
+    target_type = "virtio"
+    target_port = "1"
+  }
+
+  disk {
+    volume_id = libvirt_volume.volume_loadbalancer.id
+  }
+
+  graphics {
+    type        = "spice"
+    listen_type = "address"
+    autoport    = true
+  }
+}

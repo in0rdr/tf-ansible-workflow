@@ -1,0 +1,8 @@
+<!-- # Ansible generated libvirt network snippet -->
+<dns>
+{% for host in qemu_config %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>api-int.test.libvirt</hostname>
+  </host>
+{% endfor %}
+</dns>

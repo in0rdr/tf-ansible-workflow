@@ -13,3 +13,7 @@
       template:
         src: 'templates/libvirt-network.xml.j2'
         dest: './libvirt-network.xml'
+    - name: create libvirt network dns config snippet
+      template:
+        src: 'templates/libvirt-network-dns.xml.j2'
+        dest: './libvirt-network-dns.xml'
