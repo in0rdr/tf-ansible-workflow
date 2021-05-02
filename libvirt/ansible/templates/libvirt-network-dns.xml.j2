@@ -1,8 +1,41 @@
 <!-- # Ansible generated libvirt network snippet -->
 <dns>
 {% for host in qemu_config %}
+{% if 'loadbalancer' in host.fqdn %}
   <host ip='{{ host.ip4 }}'>
     <hostname>api-int.test.libvirt</hostname>
   </host>
+  <host ip='{{ host.ip4 }}'>
+    <hostname>api.test.libvirt</hostname>
+  </host>
+{% elif 'bootstrap' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>bootstrap.test.libvirt</hostname>
+  </host>
+{% elif 'master' in host.fqdn and '1' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>master1.test.libvirt</hostname>
+  </host>
+{% elif 'master' in host.fqdn and '2' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>master2.test.libvirt</hostname>
+  </host>
+{% elif 'master' in host.fqdn and '3' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>master3.test.libvirt</hostname>
+  </host>
+{% elif 'worker' in host.fqdn and '1' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>worker1.test.libvirt</hostname>
+  </host>
+{% elif 'worker' in host.fqdn and '2' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>worker2.test.libvirt</hostname>
+  </host>
+{% elif 'worker' in host.fqdn and '3' in host.fqdn %}
+  <host ip='{{ host.ip4 }}'>
+    <hostname>worker3.test.libvirt</hostname>
+  </host>
+{% endif %}
 {% endfor %}
 </dns>

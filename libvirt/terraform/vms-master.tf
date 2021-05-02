@@ -1,7 +1,6 @@
 # backing image to save disk space for multiple vms
 # https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html
 resource "libvirt_volume" "base_volume_master" {
-  # resource "libvirt_volume" "volume" {
   name   = "${var.project}-base_master"
   pool   = libvirt_pool.pool.name
   source = var.openshift_master_baseimage

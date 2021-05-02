@@ -1,10 +1,20 @@
-resource "libvirt_volume" "volume_bootstrap" {
-  name   = "${var.project}-cow-${var.openshift_bootstrap_node}"
+# backing image to save disk space for multiple vms
+# https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html
+resource "libvirt_volume" "base_volume_bootstrap" {
+  # resource "libvirt_volume" "volume" {
+  name   = "${var.project}-base_bootstrap"
   pool   = libvirt_pool.pool.name
   source = var.openshift_bootstrap_baseimage
   format = var.baseimage_format
 
   depends_on = [libvirt_pool.pool]
+}
+
+resource "libvirt_volume" "volume_bootstrap" {
+  name           = "${var.project}-cow-${var.openshift_bootstrap_node}"
+  pool           = libvirt_pool.pool.name
+  base_volume_id = libvirt_volume.base_volume_bootstrap.id
+  size           = var.disk
 }
 
 resource "libvirt_domain" "host_bootstrap" {

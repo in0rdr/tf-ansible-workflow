@@ -70,21 +70,25 @@ variable "baseimage" {
 
 variable "openshift_loadbalancer_baseimage" {
   type        = string
+  default     = "../../../packer-builds/okd-loadbalancer/okd-loadbalancer.qcow2"
   description = "Path to a qcow2 image used as backing image for the Openshift loadbalancer"
 }
 
 variable "openshift_bootstrap_baseimage" {
   type        = string
+  default     = "../../../packer-builds/fcos-bootstrap/fcos-bootstrap.qcow2"
   description = "Path to a qcow2 image used as backing image for the Openshift bootstrap node"
 }
 
 variable "openshift_master_baseimage" {
   type        = string
+  default     = "../../../packer-builds/fcos-master/fcos-master.qcow2"
   description = "Path to a qcow2 image used as backing image for Openshift master nodes"
 }
 
 variable "openshift_worker_baseimage" {
   type        = string
+  default     = "../../../packer-builds/fcos-worker/fcos-worker.qcow2"
   description = "Path to a qcow2 image used as backing image for Openshift worker nodes"
 }
 
