@@ -1,5 +1,7 @@
 project = "myCluster"
 hosts = ["myCluster01", "myCluster02"]
+# type2 hosts have a different baseimage, see baseimage_type2 below
+type2_hosts = ["myCluster03"]
 # network = "10.66.3.0/24"
 # vcpu = 1
 # memory = 1024
@@ -12,3 +14,4 @@ hosts = ["myCluster01", "myCluster02"]
 # baseimage = "https://linuximages.de/openstack/arch/arch-openstack-LATEST-image-bootstrap.qcow2"
 # baseimage = "http://download.opensuse.org/distribution/leap/15.2/appliances/openSUSE-Leap-15.2-JeOS.x86_64-kvm-and-xen.qcow2"
 # baseimage = "http://download.opensuse.org/tumbleweed/appliances/openSUSE-Tumbleweed-JeOS.x86_64-kvm-and-xen.qcow2"
+# baseimage_type2 = ""

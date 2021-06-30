@@ -8,6 +8,11 @@ variable "hosts" {
     default = ["node0", "node1"]
 }
 
+variable "type2_hosts" {
+    type = list
+    default = ["node2", "node3"]
+}
+
 variable "vcpu" {
     type = number
     default = 1
@@ -46,6 +51,12 @@ variable "baseimage" {
     type = string
     default = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
     description = "URL to a qcow2 image used as backing image for all VMs"
+}
+
+variable "baseimage_type2" {
+    type = string
+    default = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
+    description = "URL to a qcow2 image used as backing image for type2 VMs"
 }
 
 variable "baseimage_format" {

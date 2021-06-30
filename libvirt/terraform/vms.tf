@@ -203,17 +203,3 @@ resource "null_resource" "update_cloudinit" {
         command = "echo '${templatefile("${path.module}/templates/cloud_init.cfg.tpl", { public_key = tls_private_key.id_rsa.public_key_openssh })}' > ./cloud_init.cfg"
     }
 }
-resource "null_resource" "update_inventory" {
-    triggers = {
-        # when a host id changes
-        host_ids = join(" ", values(libvirt_domain.host)[*].id)
-    }
-    provisioner "local-exec" {
-        # recreate ansible inventory
-        command = "echo '${templatefile("${path.module}/templates/inventory.tpl", { hosts = libvirt_domain.host })}' > ../ansible/inventory"
-    }
-    provisioner "local-exec" {
-        # recreate mapping of qemu VM id to hostnames 
-        command = "echo '${templatefile("${path.module}/templates/qemu-config.yml.tpl", { hosts = libvirt_domain.host })}' > ../ansible/qemu-config.yml"
-    }
-}
