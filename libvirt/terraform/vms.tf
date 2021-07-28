@@ -71,7 +71,7 @@ resource "libvirt_cloudinit_disk" "commoninit" {
     name           = var.cloudinit_iso
     user_data      = data.template_file.user_data.rendered
     network_config = data.template_file.network_config.rendered
-    pool           = var.project
+    pool           = libvirt_pool.pool.name
 }
 
 resource "libvirt_domain" "host" {
