@@ -1,9 +1,9 @@
 output "inventory" {
-    value = templatefile("${path.module}/templates/inventory.tpl", { hosts = libvirt_domain.host })
+    value = templatefile("${path.module}/templates/inventory.tpl", { hosts = local.all_hosts })
 }
 
 output "qemu_config" {
-    value = templatefile("${path.module}/templates/qemu-config.yml.tpl", { hosts = libvirt_domain.host })
+    value = templatefile("${path.module}/templates/qemu-config.yml.tpl", { hosts = local.all_hosts })
 }
 
 output "ssh_private_key" {

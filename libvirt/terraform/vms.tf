@@ -1,6 +1,10 @@
 # based on the example from:
 # https://github.com/dmacvicar/terraform-provider-libvirt/tree/master/examples/v0.12/ubuntu
 
+locals {
+    all_hosts = merge(libvirt_domain.host, libvirt_domain.hosts_type2)
+}
+
 # todo: LIBVIRT_DEFAULT_URI does not work?
 provider "libvirt" {
     uri = "qemu:///system"
