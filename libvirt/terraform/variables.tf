@@ -49,13 +49,13 @@ variable "cloudinit_networkconfig" {
 
 variable "baseimage" {
     type = string
-    default = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
+    default = "https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64-disk-kvm.img"
     description = "URL to a qcow2 image used as backing image for all VMs"
 }
 
 variable "baseimage_type2" {
     type = string
-    default = "https://cloud-images.ubuntu.com/releases/xenial/release/ubuntu-16.04-server-cloudimg-amd64-disk1.img"
+    default = "https://cloud-images.ubuntu.com/releases/focal/release/ubuntu-20.04-server-cloudimg-amd64-disk-kvm.img"
     description = "URL to a qcow2 image used as backing image for type2 VMs"
 }
 
