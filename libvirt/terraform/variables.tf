@@ -5,12 +5,12 @@ variable "project" {
 
 variable "hosts" {
     type = list
-    default = ["node0", "node1"]
+    default = []
 }
 
 variable "type2_hosts" {
     type = list
-    default = ["node2", "node3"]
+    default = []
 }
 
 variable "vcpu" {
