@@ -1,6 +1,6 @@
 resource "libvirt_volume" "base_volume_type2" {
 # resource "libvirt_volume_type2" "volume" {
-    name   = "${var.project}-base"
+    name   = "${var.project}-base-type2"
     pool   = libvirt_pool.pool.name
     source = var.baseimage_type2
     format = var.baseimage_format
