@@ -1,8 +1,0 @@
----
-
-# group of sudo users
-sudo_group: wheel
-
-host_files:
-  - file: '/etc/hosts'
-    fqdn: '{{ ansible_hostname }}'
