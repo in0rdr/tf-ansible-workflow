@@ -20,7 +20,6 @@ resource "libvirt_pool" "pool" {
 # backing image to save disk space for multiple vms
 # https://kashyapc.fedorapeople.org/virt/lc-2012/snapshots-handout.html
 resource "libvirt_volume" "base_volume" {
-# resource "libvirt_volume" "volume" {
     name   = "${var.project}-base"
     pool   = libvirt_pool.pool.name
     source = var.baseimage
