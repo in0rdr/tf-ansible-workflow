@@ -91,7 +91,7 @@ resource "libvirt_domain" "host" {
     vcpu   = var.vcpu
 
     cloudinit = libvirt_cloudinit_disk.commoninit.id
-    qemu_agent = true
+    qemu_agent = false
 
     network_interface {
         network_name   = libvirt_network.network.name
