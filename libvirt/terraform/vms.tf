@@ -5,6 +5,15 @@ locals {
     all_hosts = merge(libvirt_domain.host, libvirt_domain.hosts_type2)
 }
 
+terraform {
+  required_providers {
+    libvirt = {
+      source = "dmacvicar/libvirt"
+      version = "0.6.14"
+    }
+  }
+}
+
 # todo: LIBVIRT_DEFAULT_URI does not work?
 provider "libvirt" {
     uri = "qemu:///system"
