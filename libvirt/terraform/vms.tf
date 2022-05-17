@@ -53,13 +53,13 @@ resource "libvirt_volume" "volume" {
 resource "tls_private_key" "id_rsa" {
     algorithm = "RSA"
 }
-resource "local_file" "ssh_private_key" {
-    sensitive_content = tls_private_key.id_rsa.private_key_pem
+resource "local_sensitive_file" "ssh_private_key" {
+    content           = tls_private_key.id_rsa.private_key_pem
     filename          = "${path.module}/../ssh/id_rsa"
     file_permission   = "0600"
 }
-resource "local_file" "ssh_public_key" {
-    sensitive_content = tls_private_key.id_rsa.public_key_openssh
+resource "local_sensitive_file" "ssh_public_key" {
+    content           = tls_private_key.id_rsa.public_key_openssh
     filename          = "${path.module}/../ssh/id_rsa.pub"
 }
 
@@ -208,7 +208,7 @@ resource "libvirt_network" "network" {
 resource "null_resource" "update_cloudinit" {
     triggers = {
         # when the ssh key in the local cloudinit file changes
-        key_id   = local_file.ssh_public_key.id
+        key_id   = local_sensitive_file.ssh_public_key.id
     }
     provisioner "local-exec" {
         # recreate cloudinit config

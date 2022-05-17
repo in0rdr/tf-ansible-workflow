@@ -12,7 +12,7 @@ output "ssh_private_key" {
 }
 
 output "ssh_private_keyfile" {
-    value = local_file.ssh_private_key.filename
+    value = local_sensitive_file.ssh_private_key.filename
 }
 
 output "ssh_public_key" {
@@ -21,5 +21,5 @@ output "ssh_public_key" {
 }
 
 output "ssh_public_keyfile" {
-    value = local_file.ssh_public_key.filename
+    value = local_sensitive_file.ssh_public_key.filename
 }
