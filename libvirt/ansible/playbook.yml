@@ -98,6 +98,16 @@
         loop: '{{ additional_users }}'
         when: item.authorized_key | default(false, true)
         become: yes
+
+      - name: fix ssh user dir permissions
+        ansible.builtin.file:
+          path: '/home/{{ item.name }}/.ssh'
+          state: directory
+          recurse: yes
+          owner: '{{ item.name }}'
+          group: '{{ item.name }}'
+        loop: '{{ additional_users }}'
+        become: yes
       when: additional_users | default(false, true)
       # endblock add additional users
 
